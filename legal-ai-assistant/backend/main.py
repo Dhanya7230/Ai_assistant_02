@@ -145,9 +145,20 @@ async def compare(
     return {"result": result}
 
 
-# --- Static frontend (served locally; on Vercel the /public folder is
-# served directly by the platform — see vercel.json) -------------------------
+# --- Static frontend for LOCAL DEV ONLY --------------------------------
+#
+# On Vercel, the /public folder is served directly by the platform itself
+# (see vercel.json) — the request never reaches this function at all for
+# non-/api paths, so this mount is never used there. It exists only so
+# `uvicorn backend.main:app --reload` serves the UI locally. It is
+# explicitly opt-in (VERCEL env var is unset locally, set to "1" on
+# Vercel) so it can never shadow an API route in production — a mount at
+# "/" only supports GET/HEAD, and if it were ever hit for e.g. a POST to
+# /api/upload it would return 405 instead of running the real handler.
 
-_frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
-if _frontend_dir.exists():
-    app.mount("/", StaticFiles(directory=str(_frontend_dir), html=True), name="frontend")
+import os  # noqa: E402
+
+if not os.environ.get("VERCEL"):
+    _frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+    if _frontend_dir.exists():
+        app.mount("/", StaticFiles(directory=str(_frontend_dir), html=True), name="frontend")

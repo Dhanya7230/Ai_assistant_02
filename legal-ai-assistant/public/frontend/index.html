@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Legal Document Assistant</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header">
+    <h1>Legal Document Assistant</h1>
+    <p class="tagline">Understand legal documents in plain language. This tool provides information only — it is not a substitute for advice from a qualified lawyer.</p>
+  </header>
+
+  <main id="main-content">
+    <!-- Upload -->
+    <section aria-labelledby="upload-heading" class="card">
+      <h2 id="upload-heading">1. Upload a document</h2>
+      <form id="upload-form">
+        <label for="file-input">Choose a legal document (PDF, DOCX, or TXT, max 5MB)</label>
+        <input type="file" id="file-input" name="file" accept=".pdf,.docx,.txt" required />
+        <button type="submit">Upload</button>
+      </form>
+      <div id="upload-status" role="status" aria-live="polite"></div>
+      <div id="upload-preview" hidden>
+        <h3>Preview</h3>
+        <p id="preview-text"></p>
+      </div>
+    </section>
+
+    <!-- Actions -->
+    <section aria-labelledby="actions-heading" class="card" id="actions-section" hidden>
+      <h2 id="actions-heading">2. Choose what you'd like to do</h2>
+      <div class="action-buttons" role="group" aria-label="Document analysis actions">
+        <button type="button" id="btn-simplify">Simplify &amp; highlight risks</button>
+        <button type="button" id="btn-checklist">Generate checklist</button>
+      </div>
+
+      <form id="ask-form">
+        <label for="question-input">Ask a question about this document</label>
+        <input type="text" id="question-input" name="question" placeholder="e.g. What happens if I terminate early?" />
+        <button type="submit">Ask</button>
+      </form>
+    </section>
+
+    <!-- Compare -->
+    <section aria-labelledby="compare-heading" class="card">
+      <h2 id="compare-heading">Compare two documents</h2>
+      <p>Upload a second document above first, then upload another here to compare them.</p>
+      <form id="compare-form">
+        <label for="compare-file-input">Second document (PDF, DOCX, or TXT)</label>
+        <input type="file" id="compare-file-input" accept=".pdf,.docx,.txt" />
+        <button type="submit" id="btn-compare" disabled>Compare with first document</button>
+      </form>
+      <div id="compare-status" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Results -->
+    <section aria-labelledby="results-heading" class="card">
+      <h2 id="results-heading">Results</h2>
+      <div id="results" aria-live="polite">
+        <p class="placeholder">Your results will appear here after you run an action above.</p>
+      </div>
+    </section>
+
+    <p class="disclaimer">
+      Reminder: this tool summarizes and explains documents using AI and may make mistakes.
+      It does not provide legal advice. For decisions with real consequences, consult a
+      licensed lawyer.
+    </p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
